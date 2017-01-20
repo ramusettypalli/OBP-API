@@ -237,7 +237,7 @@ defaultBank.bank_id=THE_DEFAULT_BANK_ID
 
 
 ## Super Admin Users (not database so we don't have to edit database)
-super_admin_user_ids=USER_ID1,USER_ID2,
+super_admin_user_ids=USER_ID1,USER_ID2,b9c0955a-6294-4f81-ab9a-585ac7cf1ee5
 
 api_disabled_versions=[\
 version1,\
