@@ -1,0 +1,183 @@
+#%RAML 0.8
+baseUri: https://mocksvc.mulesoft.com/mocks/58c811aa-3e39-4679-b61d-4d2713f44bb8
+title: obp
+version: 1.0
+/OpenBankProject:
+ displayName: Perform different actions on the bank accounts
+/users:
+ displayName: Create user
+ description: Creates OBP user
+ post: 
+   description: Creates OBP user. No authorisation (currently) required
+   body: 
+     application/json:
+       #example: !include examples/requests/createcustomer_request_example.json
+   responses: 
+     200:
+       body: 
+         application/json:
+           #example: !include #examples/responsess/createcustomer_response_example.json 
+     409:
+       body: 
+            application/json:
+              example: |
+                {
+                  "error":"User with the same username already exists"
+                }
+     500:
+          body: 
+            application/json:
+              example: |
+                {
+                  "error":"General Error"
+                } 
+
+/GetBanks:
+/banks:
+  displayName: Get the details of all the available Banks.
+  description: Get the details of all the available Banks.
+  get:  
+     responses: 
+        200:
+         body: 
+           application/json:
+             #example: !include examples/responses/getBanks_response_example.json
+  /{BANK_ID}:
+   /user_customer_links:
+     displayName: Link a customer and a user  
+     description: Link a customer and a user
+     post:
+       description: Link a customer and a user
+       headers: 
+         Authorization:
+          description: Header field defined to pass username and password
+          required: true
+       body: 
+         application/json: 
+           #example: !include examples/requests/addUserCustomerLink_request_example.json
+       responses: 
+         200:
+          body: 
+            application/json:
+              #example: !include examples/responses/addUserCustomerLink_response_example.jsor
+   /atms:
+    displayName: get ATM details of a particular bank
+    description: get ATM details of a particular bank
+    get:
+      responses: 
+        200:
+          body: 
+            application/json:
+              example: |
+               {
+                "atms" : []
+               }
+   /branches:
+     displayName: get details of branches of a particular bank
+     description: get details of branches of a particular bank
+     get:
+      responses: 
+        200:
+         body: 
+          application/json:
+            #example: !include examples/responses/getBranches_response_example.json
+     /{BRANCH_ID}:
+      displayName: Get the details of a particular branch by providing branch id
+      description: Get the details of a particular branch by providing branch id
+      get:
+        responses: 
+         200:
+          body: 
+           application/json:
+            #example: !include examples/responses/getBranchById_response_example.json
+   /products:
+      displayName: Get the details of all the Products
+      description: Get the details of all the Products
+      get:
+        responses: 
+         200:
+          body: 
+           application/json:
+            example: |
+             {
+              "products" : []
+             } 
+      /{PRODUCT_CODE}:
+       displayName: Get the details of a particular Product
+       description: Get the details of a particular Product
+       get:
+         responses: 
+           200:
+             body: 
+               application/json:
+                 example: |
+                  {
+                  }
+   /customers:
+     displayName: Add a customer linked to the user specified by user_id
+     description: Add a customer linked to the user specified by user_id
+     post:
+       headers: 
+         Authorization:
+           description: Header field defined to pass username and password
+           required: true
+       body: 
+         application/json:
+           #example: !include examples/requests/createCustomer_request_example.json
+       responses: 
+          200:
+           body: 
+             application/json:
+               #example: !include examples/requests/createCustomer_request_example.json
+     /{CUSTOMER_ID}:
+       /social_media_handles:
+         displayName: Add a social media handle for the customer specified by CUSTOMER_ID
+         description: Add a social media handle for the customer specified by CUSTOMER_ID
+         post:
+           headers: 
+             Authorization:
+              description: Header field defined to pass username and password
+              required: true
+           body: 
+             application/json:
+               #example: !include examples/requests/addSocialMediaHandler_request_example.json
+           responses: 
+              200:
+                body: 
+                  application/json:
+                    #example: !include examples/responses/addKycMediaHandle_response_example.json
+       /kyc_statuses:
+         displayName: Add a kyc_status for the customer specified by CUSTOMER_ID
+         description: Add a kyc_status for the customer specified by CUSTOMER_ID
+         put:
+           headers: 
+             Authorization:
+               description: Header field defined to pass username and password
+               required: true
+           body: 
+             application/json:
+               #example: !include examples/requests/addKycStatus_request_example.json
+                 
+           responses: 
+             200:
+               body: 
+                 application/json:
+                   #example: !include examples/responses/addKycStatus_response_example.json
+       /kyc_media:
+         /{KYC_MEDIA_ID}:
+          displayName: Add some KYC media for the customer specified by CUSTOMER_ID
+          description: Add some KYC media for the customer specified by CUSTOMER_ID
+          put:
+            headers: 
+             Authorization:
+               description: Header field defined to pass username and password
+               required: true
+            body: 
+             application/json:
+               #example: !include examples/requests/addKycMedia_request_example.json
+            responses: 
+              200:
+                body: 
+                  application/json:
+                    #example: !include examples/responses/addKycMedia_response_example.json
+                    
